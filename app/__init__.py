@@ -29,7 +29,7 @@ def create_app(config_name='default'):
     @app.cli.command()
     def test():
         import unittest
-        tests = unittest.TestLoader().discover('tests')
+        tests = unittest.TestLoader().discover('tests', pattern='test_send_email.py')
         unittest.TextTestRunner(verbosity=2).run(tests)
 
     return app

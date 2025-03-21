@@ -6,16 +6,16 @@ load_dotenv()
 # 通用配置文件
 class Config:
     # 配置 WTF 密钥
-    SECRET_KEY = os.getenv('SECRET_KEY', 'CSRF 密钥')
-
-    MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.googlemail.com')
-    MAIL_PORT = int(os.getenv('MAIL_PORT', '587'))
-    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'True')
+    SECRET_KEY = os.urandom(24)
+    MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.qq.com')
+    MAIL_PORT = int(os.getenv('MAIL_PORT', '465'))
+    MAIL_USE_SSL = os.getenv('MAIL_USE_SSL', 'True')
+    # MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'False')   # QQ 邮箱填 False
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 
-    FLASK_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASK_MAIL_SENDER = 'Flasky 超级管理员 <flask@example.com>'
+    FLASK_MAIL_SUBJECT_PREFIX = '[Flask]'
+    FLASK_MAIL_SENDER = 'Flask 超级管理员 <flask@example.com>'
     FLASK_ADMIN = os.getenv('FLASKY_ADMIN')
     
     SQLALCHEMY_TRACK_MODIFICATIONS = False
