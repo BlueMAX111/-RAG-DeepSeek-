@@ -1,6 +1,6 @@
-from flask import redirect, url_for
+from flask import render_template, url_for
 from . import main
 
 @main.route('/')
 def index():
-    return "Hello"
+    return render_template('index.html')

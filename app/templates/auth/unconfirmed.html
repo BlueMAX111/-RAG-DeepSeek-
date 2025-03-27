@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮箱未验证</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>邮箱未验证</h1>
+        <p>您的账户尚未通过邮箱验证，无法访问该页面。请检查您的邮箱并完成验证。</p>
+        <div>
+            <a href="{{ url_for('auth.resend_confirmation') }}" class="btn btn-primary">重新发送验证邮件</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">返回登录页面</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,6 +1,16 @@
-Hello,
-{% if current_user.is_authenticated %}
-    {{ current_user.username}}
-{% else %}
-    Stranger
-{% endif %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页</title>
+</head>
+<body>
+    <h1>基于RAG 检索的 DeepSeek 教学双端系统</h1>
+    <p>点击下面的按钮跳转到登录页面</p>
+    <!-- 使用 Flask 的 url_for 动态生成链接 -->
+    <a href="{{ url_for('auth.login') }}">
+        <button>跳转到登录页面</button>
+    </a>
+</body>
+</html>

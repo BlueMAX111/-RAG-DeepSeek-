@@ -16,11 +16,11 @@ def login():
             login_user(user, form.remember_me.data)               #标记用户会话为登录
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
+                flash('无法返回验证链接', 'success')
                 next = url_for('main.index')
             flash('登录成功', 'success')
             return redirect(next)
-        flash('无效的邮箱地址或密码', 'failed')
-
+        flash('无效的邮箱地址或密码', 'danger')
     return render_template('auth/login.html', form=form)
 
 # 登出用户功能实现
@@ -38,7 +38,7 @@ def register():
     if form.validate_on_submit():
         existing_user = User.query.filter_by(email=form.email.data).first()
         if existing_user:
-            flash("该邮箱用户已存在", 'failed')
+            flash("该邮箱用户已存在", 'danger')
             return redirect(url_for('auth.register'))
         user = User(email=form.email.data,
                     password = form.password.data,
@@ -56,10 +56,25 @@ def register():
 @login_required
 def confirm(token):
     if current_user.confirmed:
-        return redirect(url_for('index'))
+        flash('您的账户已经验证过了', 'success')
+        return redirect(url_for('main.index'))  # 如果用户已经验证过，跳转到主页
     if current_user.confirm(token):
         db.session.commit()
         flash('账户验证成功', 'success')
     else:
-        flash('账户未验证', 'failed')
-    return redirect(url_for('main.index'))
+        flash('账户未验证', 'danger')
+    return redirect(url_for('main.index'))  # 验证成功后跳转到主页
+
+@auth.route('/unconfirmed')
+def unconfirmed():
+    if current_user.is_anonymous or current_user.confirmed:
+        return redirect(url_for('main.index'))
+    return render_template('auth/unconfirmed.html')
+
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated \
+            and not current_user.confirmed \
+            and request.blueprint != 'auth' \
+            and request.endpoint != 'static':
+        return redirect(url_for('auth.unconfirmed'))
